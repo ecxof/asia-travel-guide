@@ -94,13 +94,13 @@ function SiteHeader({
 
       <div className="flex flex-wrap items-center gap-3 sm:justify-end">
         <nav className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-          {navItems.map((item) =>
+          {navItems.map((item, index) =>
             "to" in item ? (
-              <Link key={item.href ?? item.to} to={item.to} className="transition-colors hover:text-foreground">
+              <Link key={`nav-${index}`} to={item.to} className="transition-colors hover:text-foreground">
                 {localize(language, item.label)}
               </Link>
             ) : (
-              <a key={item.href} href={item.href} className="transition-colors hover:text-foreground">
+              <a key={`nav-${index}`} href={item.href} className="transition-colors hover:text-foreground">
                 {localize(language, item.label)}
               </a>
             ),
