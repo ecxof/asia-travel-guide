@@ -1,26 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { TravelSite } from "../components/travel-site";
+import { homeSeo } from "../lib/travel-content";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: homeSeo.title },
+      { name: "description", content: homeSeo.description },
+      { property: "og:title", content: homeSeo.title },
+      { property: "og:description", content: homeSeo.description },
+      { name: "twitter:title", content: homeSeo.title },
+      { name: "twitter:description", content: homeSeo.description },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return <TravelSite />;
 }
