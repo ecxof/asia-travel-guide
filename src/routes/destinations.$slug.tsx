@@ -14,6 +14,12 @@ export const Route = createFileRoute("/destinations/$slug")({
     return { destination };
   },
   head: ({ loaderData }) => {
+    if (!loaderData) {
+      return {
+        meta: [{ title: "Destination | Asia Travel Explorer" }],
+      };
+    }
+
     const title = `${loaderData.destination.country.en} | Asia Travel Explorer`;
     const description = loaderData.destination.overview.en;
 
