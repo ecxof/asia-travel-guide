@@ -72,7 +72,6 @@ function SiteHeader({
   onLanguageChange: (language: Language) => void;
 }) {
   const navItems = [
-    { label: uiCopy.nav.home, to: "/" as const },
     { label: uiCopy.nav.destinations, href: "#destinations" },
     { label: uiCopy.nav.quiz, href: "#quiz" },
     { label: uiCopy.nav.about, href: "#about" },
@@ -94,17 +93,14 @@ function SiteHeader({
 
       <div className="flex flex-wrap items-center gap-3 sm:justify-end">
         <nav className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-          {navItems.map((item, index) =>
-            "to" in item ? (
-              <Link key={`nav-${index}`} to={item.to} className="transition-colors hover:text-foreground">
-                {localize(language, item.label)}
-              </Link>
-            ) : (
-              <a key={`nav-${index}`} href={item.href} className="transition-colors hover:text-foreground">
-                {localize(language, item.label)}
-              </a>
-            ),
-          )}
+          <Link to="/" className="transition-colors hover:text-foreground">
+            {localize(language, uiCopy.nav.home)}
+          </Link>
+          {navItems.map((item, index) => (
+            <a key={`nav-${index}`} href={item.href} className="transition-colors hover:text-foreground">
+              {localize(language, item.label)}
+            </a>
+          ))}
         </nav>
         <div className="inline-flex items-center rounded-lg border border-border bg-background/90 p-1 backdrop-blur-sm">
           <button
