@@ -30,3 +30,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local assistant/editor workspace
+.claude/
+.claude.json
+.cursor/
