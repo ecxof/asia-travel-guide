@@ -1,6 +1,10 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
+import { LanguageProvider } from "../lib/language-context";
+import { homeSeo, siteUrl } from "../lib/travel-content";
 import appCss from "../styles.css?url";
+
+const ogImage = `${siteUrl}/asia-travel-hero.jpg`;
 
 function NotFoundComponent() {
   return (
@@ -29,18 +33,16 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Asia Travel Explorer" },
-      { name: "description", content: "Bilingual easy-entry Asia travel ideas for Chinese travelers." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Asia Travel Explorer" },
-      { property: "og:description", content: "Bilingual easy-entry Asia travel ideas for Chinese travelers." },
+      { title: homeSeo.title },
+      { name: "description", content: homeSeo.description },
+      { property: "og:title", content: homeSeo.title },
+      { property: "og:description", content: homeSeo.description },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Asia Travel Explorer" },
-      { name: "twitter:description", content: "Bilingual easy-entry Asia travel ideas for Chinese travelers." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/78d904cc-8d06-4aac-a6c4-4628eeea3d84" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/78d904cc-8d06-4aac-a6c4-4628eeea3d84" },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: homeSeo.title },
+      { name: "twitter:description", content: homeSeo.description },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [
       {
@@ -69,5 +71,9 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <LanguageProvider>
+      <Outlet />
+    </LanguageProvider>
+  );
 }
