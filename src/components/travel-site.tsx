@@ -11,6 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import { useLanguage } from "../lib/language-context";
 import {
   brandName,
   destinations,
@@ -30,7 +31,8 @@ type TravelSiteProps = {
 };
 
 export function TravelSite({ destination }: TravelSiteProps) {
-  const [language, setLanguage] = useState<Language>("en");
+  const { language, setLanguage } = useLanguage();
+  const onHome = !destination;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -44,7 +46,7 @@ export function TravelSite({ destination }: TravelSiteProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SiteHeader language={language} onLanguageChange={setLanguage} />
+          <SiteHeader language={language} onLanguageChange={setLanguage} onHome={onHome} />
           {destination ? (
             <DestinationHero destination={destination} language={language} />
           ) : (
@@ -67,14 +69,16 @@ export function TravelSite({ destination }: TravelSiteProps) {
 function SiteHeader({
   language,
   onLanguageChange,
+  onHome,
 }: {
   language: Language;
   onLanguageChange: (language: Language) => void;
+  onHome: boolean;
 }) {
   const navItems = [
-    { label: uiCopy.nav.destinations, href: "#destinations" },
-    { label: uiCopy.nav.quiz, href: "#quiz" },
-    { label: uiCopy.nav.about, href: "#about" },
+    { label: uiCopy.nav.destinations, hash: "destinations" },
+    { label: uiCopy.nav.quiz, hash: "quiz" },
+    { label: uiCopy.nav.about, hash: "about" },
   ];
 
   return (
@@ -84,10 +88,17 @@ function SiteHeader({
           <Compass className="h-5 w-5 text-primary" />
         </div>
         <div>
-          <Link to="/" className="text-sm font-semibold tracking-[0.08em] text-foreground uppercase">
+          <Link
+            to="/"
+            className="text-sm font-semibold tracking-[0.08em] text-foreground uppercase"
+          >
             {localize(language, brandName)}
           </Link>
-          <p className="text-xs text-muted-foreground">Easy-entry Asia for Chinese travelers</p>
+          <p className="text-xs text-muted-foreground">
+            {language === "en"
+              ? "Easy-entry Asia for Chinese travelers"
+              : "为中国旅客准备的亚洲轻松出行指南"}
+          </p>
         </div>
       </div>
 
@@ -96,29 +107,50 @@ function SiteHeader({
           <Link to="/" className="transition-colors hover:text-foreground">
             {localize(language, uiCopy.nav.home)}
           </Link>
-          {navItems.map((item, index) => (
-            <a key={`nav-${index}`} href={item.href} className="transition-colors hover:text-foreground">
-              {localize(language, item.label)}
-            </a>
-          ))}
+          {navItems.map((item) =>
+            onHome ? (
+              <a
+                key={item.hash}
+                href={`#${item.hash}`}
+                className="transition-colors hover:text-foreground"
+              >
+                {localize(language, item.label)}
+              </a>
+            ) : (
+              <Link
+                key={item.hash}
+                to="/"
+                hash={item.hash}
+                className="transition-colors hover:text-foreground"
+              >
+                {localize(language, item.label)}
+              </Link>
+            ),
+          )}
         </nav>
         <div className="inline-flex items-center rounded-lg border border-border bg-background/90 p-1 backdrop-blur-sm">
           <button
             type="button"
+            aria-pressed={language === "en"}
             onClick={() => onLanguageChange("en")}
             className={cn(
               "rounded-md px-3 py-1.5 text-sm transition-colors",
-              language === "en" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+              language === "en"
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             EN
           </button>
           <button
             type="button"
+            aria-pressed={language === "zh"}
             onClick={() => onLanguageChange("zh")}
             className={cn(
               "rounded-md px-3 py-1.5 text-sm transition-colors",
-              language === "zh" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+              language === "zh"
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             中文
@@ -164,9 +196,14 @@ function HomeHero({ language }: { language: Language }) {
 
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
         {featuredStats.map((stat) => (
-          <div key={stat.value} className="rounded-lg border border-border bg-background/85 p-5 backdrop-blur-sm">
+          <div
+            key={stat.value}
+            className="rounded-lg border border-border bg-background/85 p-5 backdrop-blur-sm"
+          >
             <div className="text-2xl font-semibold text-foreground">{stat.value}</div>
-            <div className="mt-2 text-sm leading-6 text-muted-foreground">{localize(language, stat.label)}</div>
+            <div className="mt-2 text-sm leading-6 text-muted-foreground">
+              {localize(language, stat.label)}
+            </div>
           </div>
         ))}
       </div>
@@ -197,7 +234,9 @@ function HomeBody({ language }: { language: Language }) {
       <section className="border-y border-border bg-card/60">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:px-8 lg:py-20">
           <SectionHeading
-            eyebrow={language === "en" ? "Why this guide feels different" : "为什么这份指南更贴近真实需求"}
+            eyebrow={
+              language === "en" ? "Why this guide feels different" : "为什么这份指南更贴近真实需求"
+            }
             title={localize(language, uiCopy.travelers.title)}
             description={
               language === "en"
@@ -212,7 +251,9 @@ function HomeBody({ language }: { language: Language }) {
               return (
                 <div key={index} className="rounded-lg border border-border bg-background p-5">
                   <Icon className="h-5 w-5 text-primary" />
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{localize(language, point)}</p>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                    {localize(language, point)}
+                  </p>
                 </div>
               );
             })}
@@ -230,12 +271,16 @@ function HomeBody({ language }: { language: Language }) {
             <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
               {localize(language, uiCopy.disclaimer.title)}
             </p>
-            <p className="mt-3 text-sm leading-7 text-muted-foreground">{localize(language, uiCopy.disclaimer.body)}</p>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              {localize(language, uiCopy.disclaimer.body)}
+            </p>
           </div>
           <div className="rounded-lg border border-border bg-card p-6">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <ShieldCheck className="h-4 w-4 text-primary" />
-              <span>{language === "en" ? `Last verified: ${lastVerified}` : `最近核验：${lastVerified}`}</span>
+              <span>
+                {language === "en" ? `Last verified: ${lastVerified}` : `最近核验：${lastVerified}`}
+              </span>
             </div>
             <p className="mt-4 text-base leading-7 text-foreground">
               {language === "en"
@@ -249,7 +294,13 @@ function HomeBody({ language }: { language: Language }) {
   );
 }
 
-function DestinationCard({ destination, language }: { destination: Destination; language: Language }) {
+function DestinationCard({
+  destination,
+  language,
+}: {
+  destination: Destination;
+  language: Language;
+}) {
   return (
     <article className="overflow-hidden rounded-lg border border-border bg-card">
       <img
@@ -262,13 +313,27 @@ function DestinationCard({ destination, language }: { destination: Destination; 
       />
       <div className="space-y-4 p-5">
         <div>
-          <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{localize(language, destination.highlight)}</p>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">{localize(language, destination.country)}</h2>
-          <p className="mt-2 text-sm leading-7 text-muted-foreground">{localize(language, destination.tagline)}</p>
+          <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+            {localize(language, destination.highlight)}
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold text-foreground">
+            {localize(language, destination.country)}
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-muted-foreground">
+            {localize(language, destination.tagline)}
+          </p>
         </div>
         <dl className="grid gap-3 text-sm">
-          <FactRow icon={Plane} label={language === "en" ? "Entry" : "入境"} value={localize(language, destination.visaStay)} />
-          <FactRow icon={MapPinned} label={language === "en" ? "Best for" : "适合"} value={localize(language, destination.bestFor)} />
+          <FactRow
+            icon={Plane}
+            label={language === "en" ? "Entry" : "入境"}
+            value={localize(language, destination.visaStay)}
+          />
+          <FactRow
+            icon={MapPinned}
+            label={language === "en" ? "Best for" : "适合"}
+            value={localize(language, destination.bestFor)}
+          />
         </dl>
         <Link
           to="/destinations/$slug"
@@ -283,30 +348,71 @@ function DestinationCard({ destination, language }: { destination: Destination; 
   );
 }
 
+// Per-destination affinity scores for each (question, answer) pair.
+// Higher = better fit. Zero when a destination is a poor match for that answer.
+const QUIZ_SCORES: Record<string, Record<string, Record<string, number>>> = {
+  maldives: {
+    pace: { beach: 5, city: 0, culture: 0, nature: 2 },
+    style: { luxury: 3, balanced: 1, adventure: 0, romance: 5 },
+    group: { partner: 3, friends: 1, family: 2, solo: 0 },
+  },
+  uae: {
+    pace: { beach: 2, city: 5, culture: 1, nature: 0 },
+    style: { luxury: 5, balanced: 2, adventure: 1, romance: 2 },
+    group: { partner: 2, friends: 2, family: 3, solo: 2 },
+  },
+  kazakhstan: {
+    pace: { beach: 0, city: 1, culture: 2, nature: 5 },
+    style: { luxury: 0, balanced: 2, adventure: 5, romance: 1 },
+    group: { partner: 1, friends: 3, family: 1, solo: 3 },
+  },
+  uzbekistan: {
+    pace: { beach: 0, city: 1, culture: 5, nature: 2 },
+    style: { luxury: 1, balanced: 3, adventure: 2, romance: 2 },
+    group: { partner: 2, friends: 2, family: 2, solo: 3 },
+  },
+  qatar: {
+    pace: { beach: 1, city: 4, culture: 3, nature: 0 },
+    style: { luxury: 4, balanced: 3, adventure: 1, romance: 3 },
+    group: { partner: 3, friends: 2, family: 2, solo: 3 },
+  },
+};
+
+function scoreDestination(slug: string, answers: Record<string, string>) {
+  const scores = QUIZ_SCORES[slug];
+  if (!scores) return 0;
+  let total = 0;
+  for (const [question, answer] of Object.entries(answers)) {
+    total += scores[question]?.[answer] ?? 0;
+  }
+  return total;
+}
+
 function TripQuiz({ language }: { language: Language }) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
   const result = useMemo(() => {
     if (quizQuestions.some((question) => !answers[question.id])) return null;
 
-    const pace = answers.pace;
-    const style = answers.style;
-    const group = answers.group;
-
-    if (pace === "beach" || style === "romance") return destinations.find((item) => item.slug === "maldives") ?? null;
-    if (pace === "city" && style === "luxury") return destinations.find((item) => item.slug === "uae") ?? null;
-    if (pace === "nature" || style === "adventure") return destinations.find((item) => item.slug === "kazakhstan") ?? null;
-    if (pace === "culture") return destinations.find((item) => item.slug === "uzbekistan") ?? null;
-    if (group === "solo" || group === "friends") return destinations.find((item) => item.slug === "qatar") ?? null;
-
-    return destinations.find((item) => item.slug === "uae") ?? null;
+    let winner: Destination | null = null;
+    let best = -Infinity;
+    for (const destination of destinations) {
+      const score = scoreDestination(destination.slug, answers);
+      if (score > best) {
+        best = score;
+        winner = destination;
+      }
+    }
+    return winner;
   }, [answers]);
 
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
       <SectionHeading
         eyebrow={language === "en" ? "Find your fit" : "找到更适合你的目的地"}
-        title={language === "en" ? "A quick editorial-style trip quiz" : "一个轻量、好懂的旅行测一测"}
+        title={
+          language === "en" ? "A quick editorial-style trip quiz" : "一个轻量、好懂的旅行测一测"
+        }
         description={
           language === "en"
             ? "Answer three fast questions and get the destination most aligned with your mood right now."
@@ -317,7 +423,9 @@ function TripQuiz({ language }: { language: Language }) {
       <div className="grid gap-6 rounded-lg border border-border bg-card p-6">
         {quizQuestions.map((question) => (
           <div key={question.id} className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground">{localize(language, question.label)}</h3>
+            <h3 className="text-sm font-medium text-foreground">
+              {localize(language, question.label)}
+            </h3>
             <div className="grid gap-3 sm:grid-cols-2">
               {question.options.map((option) => {
                 const active = answers[question.id] === option.value;
@@ -325,7 +433,10 @@ function TripQuiz({ language }: { language: Language }) {
                   <button
                     key={option.value}
                     type="button"
-                    onClick={() => setAnswers((current) => ({ ...current, [question.id]: option.value }))}
+                    aria-pressed={active}
+                    onClick={() =>
+                      setAnswers((current) => ({ ...current, [question.id]: option.value }))
+                    }
                     className={cn(
                       "rounded-lg border px-4 py-3 text-left text-sm transition-colors",
                       active
@@ -347,8 +458,12 @@ function TripQuiz({ language }: { language: Language }) {
               <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
                 {language === "en" ? "Recommended now" : "当前推荐"}
               </p>
-              <h3 className="text-2xl font-semibold text-foreground">{localize(language, result.country)}</h3>
-              <p className="text-sm leading-7 text-muted-foreground">{localize(language, result.overview)}</p>
+              <h3 className="text-2xl font-semibold text-foreground">
+                {localize(language, result.country)}
+              </h3>
+              <p className="text-sm leading-7 text-muted-foreground">
+                {localize(language, result.overview)}
+              </p>
               <Link
                 to="/destinations/$slug"
                 params={{ slug: result.slug }}
@@ -371,16 +486,27 @@ function TripQuiz({ language }: { language: Language }) {
   );
 }
 
-function DestinationHero({ destination, language }: { destination: Destination; language: Language }) {
+function DestinationHero({
+  destination,
+  language,
+}: {
+  destination: Destination;
+  language: Language;
+}) {
   return (
     <section className="grid gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)] lg:items-end lg:py-16">
       <div className="space-y-5">
-        <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
           <ArrowRight className="h-4 w-4 rotate-180" />
           {language === "en" ? "Back to homepage" : "返回首页"}
         </Link>
         <div className="space-y-3">
-          <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{localize(language, destination.highlight)}</p>
+          <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+            {localize(language, destination.highlight)}
+          </p>
           <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
             {localize(language, destination.country)}
           </h1>
@@ -389,9 +515,18 @@ function DestinationHero({ destination, language }: { destination: Destination; 
           </p>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
-          <MiniFact label={language === "en" ? "Visa" : "签证"} value={localize(language, destination.visaStay)} />
-          <MiniFact label={language === "en" ? "Flight" : "航程"} value={localize(language, destination.flightTime)} />
-          <MiniFact label={language === "en" ? "Budget" : "预算"} value={localize(language, destination.budget)} />
+          <MiniFact
+            label={language === "en" ? "Visa" : "签证"}
+            value={localize(language, destination.visaStay)}
+          />
+          <MiniFact
+            label={language === "en" ? "Flight" : "航程"}
+            value={localize(language, destination.flightTime)}
+          />
+          <MiniFact
+            label={language === "en" ? "Budget" : "预算"}
+            value={localize(language, destination.budget)}
+          />
         </div>
       </div>
       <img
@@ -405,7 +540,13 @@ function DestinationHero({ destination, language }: { destination: Destination; 
   );
 }
 
-function DestinationBody({ destination, language }: { destination: Destination; language: Language }) {
+function DestinationBody({
+  destination,
+  language,
+}: {
+  destination: Destination;
+  language: Language;
+}) {
   return (
     <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
@@ -419,7 +560,9 @@ function DestinationBody({ destination, language }: { destination: Destination; 
             <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
               {language === "en" ? "Interesting fact" : "有趣的一点"}
             </p>
-            <p className="mt-3 text-sm leading-7 text-foreground">{localize(language, destination.interestingFact)}</p>
+            <p className="mt-3 text-sm leading-7 text-foreground">
+              {localize(language, destination.interestingFact)}
+            </p>
           </div>
         </div>
 
@@ -449,12 +592,22 @@ function DestinationBody({ destination, language }: { destination: Destination; 
   );
 }
 
-function SectionHeading({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
+function SectionHeading({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
   return (
     <div className="space-y-3">
       <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{eyebrow}</p>
       <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">{title}</h2>
-      <p className="max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">{description}</p>
+      <p className="max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
+        {description}
+      </p>
     </div>
   );
 }
