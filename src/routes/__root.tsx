@@ -1,7 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
+import { homeSeo, siteUrl } from "../content/site";
 import { LanguageProvider } from "../lib/language-context";
-import { homeSeo, siteUrl } from "../lib/travel-content";
 import appCss from "../styles.css?url";
 
 const ogImage = `${siteUrl}/asia-travel-hero.jpg`;

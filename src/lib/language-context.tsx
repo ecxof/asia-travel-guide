@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-import type { Language } from "./travel-content";
+import type { Language } from "../content/types";
 
 type LanguageContextValue = {
   language: Language;
