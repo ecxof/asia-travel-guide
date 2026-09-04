@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { TravelSite } from "../components/travel-site";
-import { homeSeo } from "../lib/travel-content";
+import { TravelSite } from "../components/layout/travel-site";
+import { homeSeo } from "../content/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({

@@ -1,7 +1,8 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 
-import { TravelSite } from "../components/travel-site";
-import { getDestination, siteUrl } from "../lib/travel-content";
+import { TravelSite } from "../components/layout/travel-site";
+import { getDestination } from "../content/localize";
+import { siteUrl } from "../content/site";
 
 export const Route = createFileRoute("/destinations/$slug")({
   loader: ({ params }) => {
