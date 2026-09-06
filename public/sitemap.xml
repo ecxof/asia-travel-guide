@@ -1,9 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
-  <url><loc>/destinations/maldives</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>/destinations/uae</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>/destinations/kazakhstan</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>/destinations/uzbekistan</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>/destinations/qatar</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="/?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="/" />
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>/destinations/maldives</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="/destinations/maldives" />
+    <xhtml:link rel="alternate" hreflang="zh" href="/destinations/maldives?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="/destinations/maldives" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>/destinations/uae</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="/destinations/uae" />
+    <xhtml:link rel="alternate" hreflang="zh" href="/destinations/uae?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="/destinations/uae" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>/destinations/kazakhstan</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="/destinations/kazakhstan" />
+    <xhtml:link rel="alternate" hreflang="zh" href="/destinations/kazakhstan?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="/destinations/kazakhstan" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>/destinations/uzbekistan</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="/destinations/uzbekistan" />
+    <xhtml:link rel="alternate" hreflang="zh" href="/destinations/uzbekistan?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="/destinations/uzbekistan" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>/destinations/qatar</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="/destinations/qatar" />
+    <xhtml:link rel="alternate" hreflang="zh" href="/destinations/qatar?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="/destinations/qatar" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

@@ -49,7 +49,7 @@ export function TripQuiz({ language }: { language: Language }) {
                       setAnswers((current) => ({ ...current, [question.id]: option.value }))
                     }
                     className={cn(
-                      "rounded-lg border px-4 py-3 text-left text-sm transition-colors",
+                      "rounded-lg border px-4 py-3 text-left text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
                       active
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border bg-background text-muted-foreground hover:text-foreground",

@@ -1,26 +1,39 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
 import { homeSeo, siteUrl } from "../content/site";
-import { LanguageProvider } from "../lib/language-context";
+import { LanguageProvider, useLanguage } from "../lib/language-context";
 import appCss from "../styles.css?url";
 
 const ogImage = `${siteUrl}/asia-travel-hero.jpg`;
 
+type RootSearch = { lang?: "en" | "zh" };
+
+function validateRootSearch(search: Record<string, unknown>): RootSearch {
+  const lang = search.lang;
+  return { lang: lang === "en" || lang === "zh" ? lang : undefined };
+}
+
 function NotFoundComponent() {
+  const { language } = useLanguage();
+  const heading = language === "zh" ? "页面未找到" : "Page not found";
+  const body =
+    language === "zh"
+      ? "您访问的页面不存在，或已被移动。"
+      : "The page you're looking for doesn't exist or has been moved.";
+  const cta = language === "zh" ? "返回首页" : "Go home";
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">{heading}</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{body}</p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
-            Go home
+            {cta}
           </Link>
         </div>
       </div>
@@ -29,6 +42,7 @@ function NotFoundComponent() {
 }
 
 export const Route = createRootRoute({
+  validateSearch: validateRootSearch,
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -73,7 +87,20 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   return (
     <LanguageProvider>
+      <SkipToContent />
       <Outlet />
     </LanguageProvider>
+  );
+}
+
+function SkipToContent() {
+  const { language } = useLanguage();
+  return (
+    <a
+      href="#main-content"
+      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground focus:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    >
+      {language === "zh" ? "跳转到主要内容" : "Skip to main content"}
+    </a>
   );
 }

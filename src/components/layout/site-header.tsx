@@ -69,13 +69,18 @@ export function SiteHeader({
             ),
           )}
         </nav>
-        <div className="inline-flex items-center rounded-lg border border-border bg-background/90 p-1 backdrop-blur-sm">
+        <div
+          role="group"
+          aria-label={language === "zh" ? "语言" : "Language"}
+          className="inline-flex items-center rounded-lg border border-border bg-background/90 p-1 backdrop-blur-sm"
+        >
           <button
             type="button"
             aria-pressed={language === "en"}
+            lang="en"
             onClick={() => onLanguageChange("en")}
             className={cn(
-              "rounded-md px-3 py-1.5 text-sm transition-colors",
+              "rounded-md px-3 py-1.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
               language === "en"
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground",
@@ -86,9 +91,10 @@ export function SiteHeader({
           <button
             type="button"
             aria-pressed={language === "zh"}
+            lang="zh"
             onClick={() => onLanguageChange("zh")}
             className={cn(
-              "rounded-md px-3 py-1.5 text-sm transition-colors",
+              "rounded-md px-3 py-1.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
               language === "zh"
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground",
