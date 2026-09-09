@@ -6,12 +6,15 @@ import { lastVerified } from "../../content/site";
 import type { Language } from "../../content/types";
 import { uiCopy } from "../../content/ui-copy";
 import { DestinationCard } from "../destination/destination-card";
+import { DestinationsMap } from "../map/destinations-map";
 import { TripQuiz } from "../quiz/trip-quiz";
 import { SectionHeading } from "../shared/section-heading";
 
 export function HomeBody({ language }: { language: Language }) {
   return (
     <main id="main-content" tabIndex={-1}>
+      <DestinationsMap language={language} />
+
       <section id="destinations" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <SectionHeading
           eyebrow={language === "en" ? "Top 5 picks" : "5 个精选目的地"}

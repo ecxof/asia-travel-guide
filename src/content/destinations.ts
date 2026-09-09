@@ -11,6 +11,7 @@ export const destinations: Destination[] = [
     slug: "maldives",
     country: { en: "Maldives", zh: "马尔代夫" },
     image: maldivesImage,
+    coordinates: { lat: 4.17, lon: 73.51 },
     visaStay: { en: "Visa on arrival · up to 60 days", zh: "落地签 · 最长 60 天" },
     flightTime: { en: "About 9 to 10 hours from Shanghai", zh: "从上海出发约 9 到 10 小时" },
     budget: { en: "RMB 16,000 to 35,000 for 5 days", zh: "5 天约人民币 1.6 万到 3.5 万" },
@@ -84,7 +85,9 @@ export const destinations: Destination[] = [
   {
     slug: "uae",
     country: { en: "United Arab Emirates", zh: "阿联酋" },
+    mapLabel: { en: "UAE", zh: "阿联酋" },
     image: uaeImage,
+    coordinates: { lat: 25.2, lon: 55.27 },
     visaStay: { en: "Visa free entry · 30 days", zh: "免签入境 · 30 天" },
     flightTime: { en: "About 9 hours from East China hubs", zh: "华东主要城市出发约 9 小时" },
     budget: { en: "RMB 10,000 to 22,000 for 5 days", zh: "5 天约人民币 1 万到 2.2 万" },
@@ -162,6 +165,7 @@ export const destinations: Destination[] = [
     slug: "kazakhstan",
     country: { en: "Kazakhstan", zh: "哈萨克斯坦" },
     image: kazakhstanImage,
+    coordinates: { lat: 43.24, lon: 76.95 },
     visaStay: { en: "Visa free entry · 30 days", zh: "免签入境 · 30 天" },
     flightTime: { en: "About 5 to 7 hours depending on route", zh: "按航线不同约 5 到 7 小时" },
     budget: { en: "RMB 6,000 to 12,000 for 5 days", zh: "5 天约人民币 6000 到 1.2 万" },
@@ -239,6 +243,7 @@ export const destinations: Destination[] = [
     slug: "uzbekistan",
     country: { en: "Uzbekistan", zh: "乌兹别克斯坦" },
     image: uzbekistanImage,
+    coordinates: { lat: 41.31, lon: 69.24 },
     visaStay: { en: "Visa free entry · 30 days", zh: "免签入境 · 30 天" },
     flightTime: {
       en: "About 6 to 8 hours depending on city pair",
@@ -316,6 +321,7 @@ export const destinations: Destination[] = [
     slug: "qatar",
     country: { en: "Qatar", zh: "卡塔尔" },
     image: qatarImage,
+    coordinates: { lat: 25.28, lon: 51.53 },
     visaStay: { en: "Visa free entry · 30 days", zh: "免签入境 · 30 天" },
     flightTime: {
       en: "About 8 to 9 hours from major China gateways",

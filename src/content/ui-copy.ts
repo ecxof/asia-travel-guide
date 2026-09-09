@@ -38,6 +38,18 @@ export const uiCopy = {
       },
     ],
   },
+  map: {
+    eyebrow: { en: "The region", zh: "所在区域" },
+    title: { en: "Where these destinations sit", zh: "五个目的地在哪里" },
+    description: {
+      en: "Five destinations spanning West, Central, and South Asia. Hover or focus a pin to see the essentials, then open the destination page.",
+      zh: "五个目的地覆盖西亚、中亚与南亚。将鼠标移到或聚焦某个位置查看关键信息，再进入目的地页面。",
+    },
+    interactionHint: {
+      en: "Tap a pin to open its destination page.",
+      zh: "点击标记进入对应目的地页面。",
+    },
+  },
   disclaimer: {
     title: { en: "Travel policy reminder", zh: "出行政策提醒" },
     body: {
